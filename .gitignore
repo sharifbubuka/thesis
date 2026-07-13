@@ -1,0 +1,11 @@
+.env
+.venv
+.ruff_cache
+.DS_Store
+__pycache__
+thesis.egg-info
+.ipynb_checkpoints
+src/data/datasets/gqa
+src/data/datasets/textvqa
+src/data/datasets/vizwiz
+src/model/models/llava-1.5-7b-hf

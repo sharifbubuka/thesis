@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thesis"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.14.0",
+    "datasets>=5.0.0",
+    "evaluate>=0.4.6",
+    "huggingface-hub>=0.36.0",
+    "ipykernel>=7.3.0",
+    "jupyter>=1.1.1",
+    "jupyterlab>=4.6.1",
+    "matplotlib>=3.11.0",
+    "notebook>=7.6.0",
+    "numpy>=2.5.1",
+    "pandas>=3.0.3",
+    "peft>=0.19.1",
+    "pillow>=12.3.0",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.18.0",
+    "torch>=2.12.1",
+    "torchvision>=0.27.1",
+    "tqdm>=4.68.3",
+    "transformers>=5.13.0",
+]
+
+[dependency-groups]
+dev = [
+    "poethepoet>=0.47.1",
+    "ruff>=0.15.20",
+]
+
+[tool.poe.tasks]
+lab = "uv run --with jupyterlab --with-editable . jupyter lab"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
