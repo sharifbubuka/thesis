@@ -38,9 +38,8 @@ class CanonicalDatasetBuilder:
     Converts raw multimodal dataset samples into a shared canonical format.
     """
 
-    def __init__(self, dataset_key: str, dataset_info: Dict[str, Any]):
-        self.dataset_key = dataset_key
-        self.dataset_info = dataset_info
+    def __init__(self, dataset_info: Dict[str, Any]):
+        self.info = dataset_info
         self.samples = []
 
     def build_dataset(self, dataset) -> List[Dict[str, Any]]:
@@ -50,22 +49,22 @@ class CanonicalDatasetBuilder:
         return self.samples
 
     def build_sample(self, raw_sample: Dict[str, Any], index: int) -> List[Dict[str, Any]]:
-        if self.dataset_key == "gqa":
+        if self.info["task"] == "gqa":
             return self._build_gqa_samples(raw_sample, index)
 
         return self._build_single_sample(raw_sample, index)
 
     def _build_single_sample(self, raw_sample: Dict[str, Any], index: int) -> List[Dict[str, Any]]:
-        image = raw_sample.get(self.dataset_info["image_column"])
-        question = str(raw_sample.get(self.dataset_info["question_column"], "")).strip()
-        answer = normalize_answer(raw_sample.get(self.dataset_info["answer_column"]))
+        image = raw_sample.get(self.info["image_column"])
+        question = str(raw_sample.get(self.info["question_column"], "")).strip()
+        answer = normalize_answer(raw_sample.get(self.info["answer_column"]))
 
         if image is None or not question or not answer:
             return []
 
         return [
             self._make_sample(
-                sample_id=f"{self.dataset_key}_{index}",
+                sample_id=f"{self.info['task']}_{index}",
                 image=image,
                 question=question,
                 answer=answer,
@@ -91,7 +90,7 @@ class CanonicalDatasetBuilder:
 
             samples.append(
                 self._make_sample(
-                    sample_id=f"{self.dataset_key}_{index}_{qa_index}",
+                    sample_id=f"{self.info['task']}_{index}_{qa_index}",
                     image=image,
                     question=question,
                     answer=answer,
@@ -115,8 +114,8 @@ class CanonicalDatasetBuilder:
     ) -> Dict[str, Any]:
         return {
             "sample_id": sample_id,
-            "dataset": self.dataset_key,
-            "task": self.dataset_info["task"],
+            "dataset": self.info["hf_name"],
+            "task": self.info["task"],
             "image": image,
             "question": question,
             "answer": answer,
