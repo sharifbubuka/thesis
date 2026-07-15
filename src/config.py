@@ -7,8 +7,8 @@ OUTPUT_ROOT = PROJECT_ROOT.parent / "src" / "outputs"
 CONFIG = {
     "seed": 42,
     "data": {
-        "datasets": ["textvqa", "gqa", "vizwiz"],
-        "max_size": 4_000,
+        "datasets": ["textvqa", "gqa", "vqav2"],
+        "max_size": 1_000,
     },
     "model": {
         "models": ["llava-hf/llava-1.5-7b-hf"],

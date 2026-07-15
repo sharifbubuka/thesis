@@ -18,12 +18,12 @@ REGISTRY = {
         "task": "gqa",
     },
 
-    "vizwiz": {
-        "hf_name": "lmms-lab/VizWiz-VQA",
-        "split": "val",
+    "vqav2": {
+        "hf_name": "lmms-lab/VQAv2",
+        "split": "validation",
         "image_column": "image",
         "question_column": "question",
         "answer_column": "answers",
-        "task": "vizwiz",
+        "task": "vqav2",
     },
 }

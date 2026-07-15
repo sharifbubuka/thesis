@@ -8,4 +8,5 @@ thesis.egg-info
 src/data/datasets/gqa
 src/data/datasets/textvqa
 src/data/datasets/vizwiz
+src/data/datasets/vqav2
 src/model/models/llava-1.5-7b-hf
