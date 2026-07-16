@@ -1,6 +1,7 @@
 from typing import Any, Dict, List
 from collections import Counter
 from pathlib import Path
+import csv
 import json
 
 import matplotlib.pyplot as plt
@@ -414,24 +415,10 @@ class CanonicalDatasetSerializer:
             "has_image": sample["image"] is not None,
         }
 
-    def save_metadata(
-        self,
-        output_dir: str,
-        file_name: str = "canonical_metadata",
-    ):
+    def serialize_datasets(self):
         """
         Save all canonical dataset metadata as JSON.
         """
-
-        output_path = (
-            Path(output_dir)
-            / f"{file_name}.json"
-        )
-
-        output_path.parent.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
 
         serializable_data = {
             dataset_key: [
@@ -441,7 +428,20 @@ class CanonicalDatasetSerializer:
             for dataset_key, samples
             in self.canonical_datasets.items()
         }
+        
+        return serializable_data
 
+    def save_to_json(self, serializable_data: Dict[str, Any], output_dir: str, file_name: str):
+        output_path = (
+            Path(output_dir)
+            / f"{file_name}.json"
+        )
+
+        output_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+        
         with open(
             output_path,
             "w",
@@ -454,6 +454,68 @@ class CanonicalDatasetSerializer:
                 ensure_ascii=False,
             )
 
-        print(
-            f'✅ Canonical metadata saved to "{output_path}".'
+        print_message(
+            f'✅ Canonical datasets saved to "{output_path}".'
+        )
+        
+    def save_to_csv(
+        self,
+        serializable_data: Dict[str, Any],
+        output_dir: str,
+        file_name: str,
+    ):
+        """
+        Save all serialized canonical samples in a single CSV file.
+
+        List and dictionary values are encoded as JSON strings so they can be
+        reconstructed without losing their structure.
+        """
+
+        output_path = Path(output_dir) / f"{file_name}.csv"
+        output_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        fieldnames = [
+            "sample_id",
+            "dataset",
+            "task",
+            "question",
+            "answer",
+            "answers",
+            "metadata",
+            "has_image",
+        ]
+
+        with open(
+            output_path,
+            "w",
+            encoding="utf-8",
+            newline="",
+        ) as file:
+            writer = csv.DictWriter(
+                file,
+                fieldnames=fieldnames,
+            )
+            writer.writeheader()
+
+            for samples in serializable_data.values():
+                for sample in samples:
+                    row = {
+                        field: sample.get(field, "")
+                        for field in fieldnames
+                    }
+                    row["answers"] = json.dumps(
+                        row["answers"],
+                        ensure_ascii=False,
+                    )
+                    row["metadata"] = json.dumps(
+                        row["metadata"],
+                        ensure_ascii=False,
+                    )
+                    writer.writerow(row)
+
+        print_message(
+            f'✅ Canonical datasets saved to "{output_path}".'
         )
