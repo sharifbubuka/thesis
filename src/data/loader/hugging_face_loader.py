@@ -1,10 +1,10 @@
 from pathlib import Path
-from ..utils import print_message
+from ...utils import print_message
 from datasets import disable_progress_bars, load_dataset, load_from_disk
 from datasets.utils.logging import set_verbosity_error
 from huggingface_hub.utils import disable_progress_bars as hf_disable_progress_bars
 
-from .registry import REGISTRY
+from ..config import data_config as default_data_config
 
 set_verbosity_error()
 disable_progress_bars()
@@ -18,10 +18,10 @@ class HuggingFaceDatasetLoader:
     def __init__(self, registry: dict | None = None, config: dict | None = None):
         self.dataset = None
         self.config = config
-        self.registry = registry or REGISTRY
+        self.data_config = registry if registry is not None else default_data_config
 
     def load(self, dataset_key: str):
-        if dataset_key not in self.registry:
+        if dataset_key not in self.data_config:
             raise ValueError(f"Unknown dataset key: {dataset_key}")
         
         dataset_path = Path(self.config["directories"]["datasets"]) / dataset_key
@@ -29,7 +29,7 @@ class HuggingFaceDatasetLoader:
         if dataset_path.exists() and any(dataset_path.iterdir()):
             self.dataset = load_from_disk(str(dataset_path))
         else:
-            dataset_info = self.registry[dataset_key]
+            dataset_info = self.data_config[dataset_key]
 
             self.dataset = load_dataset(
                 dataset_info["hf_name"],

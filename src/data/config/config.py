@@ -1,4 +1,4 @@
-REGISTRY = {
+data_config = {
 
     "textvqa": {
         "hf_name": "lmms-lab/textvqa",

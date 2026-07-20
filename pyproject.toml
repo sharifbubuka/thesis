@@ -13,28 +13,51 @@ dependencies = [
     "datasets>=5.0.0",
     "evaluate>=0.4.6",
     "huggingface-hub>=0.36.0",
-    "ipykernel>=7.3.0",
-    "jupyter>=1.1.1",
-    "jupyterlab>=4.6.1",
     "matplotlib>=3.11.0",
     "notebook>=7.6.0",
     "numpy>=2.5.1",
     "pandas>=3.0.3",
     "peft>=0.19.1",
     "pillow>=12.3.0",
+    "pydantic>=2.13.4",
+    "pyyaml>=6.0.3",
+    "safetensors>=0.8.0",
     "scikit-learn>=1.9.0",
     "scipy>=1.18.0",
     "torch>=2.12.1",
     "torchvision>=0.27.1",
     "tqdm>=4.68.3",
-    "transformers>=5.13.0",
+    "transformers>=4.48.0",
 ]
 
 [dependency-groups]
 dev = [
+    "jupyter>=1.1.1",
+    "ipykernel>=7.3.0",
+    "jupyterlab>=4.6.1",
+    "mypy>=2.3.0",
     "poethepoet>=0.47.1",
+    "pre-commit>=4.6.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
     "ruff>=0.15.20",
+    "types-pyyaml>=6.0.12.20260518",
 ]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_configs = true
+warn_unreachable = true
+show_error_codes = true
 
 [tool.poe.tasks]
 lab = "uv run --with jupyterlab --with-editable . jupyter lab"
