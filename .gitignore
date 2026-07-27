@@ -1,0 +1,54 @@
+# macOS
+.DS_Store
+
+# Environment variables and local configuration
+.env
+.env.*
+!.env.example
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Packaging and build artifacts
+*.egg-info/
+build/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Downloaded datasets and model weights
+src/data/datasets/
+src/model/models/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Generated experiment artifacts
+src/outputs/
+notebooks/src/outputs/
+
+# Training and experiment trackers
+wandb/
+runs/
+lightning_logs/
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.swp
+*~
