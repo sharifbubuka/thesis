@@ -95,7 +95,7 @@ with 50 validation samples per benchmark (150 total) and walks through:
 6. plotting contribution distributions, image-vs-text scatter, benchmark means, correlations, token importance, and patch importance;
 7. preparing CLS embeddings for PCA once multiple samples are available.
 
-## Interpretation warning
+<!-- ## Interpretation warning
 
 Ablation, gradients, and attention are not interchangeable:
 
@@ -103,4 +103,4 @@ Ablation, gradients, and attention are not interchangeable:
 - gradient × activation estimates local sensitivity;
 - attention describes information routing and is not used here as the causal contribution score.
 
-Black images and masked text are intentionally simple Stage 2 baselines. Later experiments should compare them with mean-image, blurred-image, token masking, and dataset-conditioned baselines to test robustness.
+Black images and masked text are intentionally simple Stage 2 baselines. Later experiments should compare them with mean-image, blurred-image, token masking, and dataset-conditioned baselines to test robustness. -->
