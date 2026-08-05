@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "thesis"
 version = "0.1.0"
-description = "ViLT modality contribution inspection for continual multimodal learning"
+description = "ViLT per-sample modality contribution inspection"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

@@ -37,8 +37,7 @@ class CompactViltOutput(NamedTuple):
         binary_entropy:
             Mean binary entropy across answer classes.
 
-    Intermediate representations are retained for attribution,
-    debugging, and continual-learning experiments.
+    Intermediate representations are retained for attribution and debugging.
     """
 
     # Final prediction outputs

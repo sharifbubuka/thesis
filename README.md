@@ -1,7 +1,7 @@
 # Per-sample modality contribution with ViLT
 
-This repository uses ViLT for modality-contribution analysis and homogeneous
-continual VQA. It contains three experimental stages.
+This repository uses ViLT for per-sample modality-contribution analysis. It
+contains an inference-verification stage and a contribution-estimation stage.
 
 ## Checkpoints
 
@@ -105,42 +105,3 @@ Ablation, gradients, and attention are not interchangeable:
 - attention describes information routing and is not used here as the causal contribution score.
 
 Black images and masked text are intentionally simple Stage 2 baselines. Later experiments should compare them with mean-image, blurred-image, token masking, and dataset-conditioned baselines to test robustness. -->
-
-## Stage 3: one-model continual VQA
-
-Stage 3 uses one `ViltForQuestionAnswering` instance, one fixed answer
-vocabulary, and one classifier throughout this sequence:
-
-```text
-TextVQA -> GQA -> VQAv2
-```
-
-The model is initialized once from `dandelin/vilt-b32-mlm`. It is never
-reloaded from a task-specific checkpoint at a task boundary. AdamW is reset at
-each boundary, while all model parameters continue from the preceding task.
-
-Run a small smoke experiment:
-
-```bash
-uv run python main.py \
-  --stage 3 \
-  --train-samples 100 \
-  --validation-samples 50 \
-  --epochs 1 \
-  --batch-size 8
-```
-
-The default output directory is
-`src/outputs/results/stage_3_continual_vqa/`. It contains:
-
-- `performance_matrix.csv`: performance on all three validation datasets
-  initially and after every task;
-- `answer_vocabulary.json`: the combined, fixed label space;
-- `experiment.json`: configuration, training losses, average accuracy,
-  forgetting, and backward transfer;
-- `after_<task>/`: optional snapshots of the same evolving model.
-
-The shared vocabulary is built before training from the sampled training
-partitions of all three datasets. Validation always uses the full, unmodified
-sample representation. Contribution-selected sample/token/patch subsets should
-therefore be applied only to the training lists, keeping validation unchanged.

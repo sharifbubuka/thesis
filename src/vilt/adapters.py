@@ -201,8 +201,10 @@ class CocoRetrievalAdapter(ViltAdapter):
     def _decode(
         self, logits: torch.Tensor, sample: MultimodalSample
     ) -> tuple[str, None, torch.Tensor]:
-        score = logits.reshape(-1)[0]
-        return f"matching_score={score.item():.6f}", None, logits
+        del sample
+        confidence = torch.sigmoid(logits.reshape(-1))
+        percentage = float(confidence[0].item() * 100.0)
+        return f"match_confidence={percentage:.2f}%", None, confidence
 
 
 def create_adapter(
